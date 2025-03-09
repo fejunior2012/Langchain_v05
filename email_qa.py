@@ -1,6 +1,5 @@
 # pip install streamlit
-# pip install langchain
-# pip install langchain_community
+# pip install -U langchain langchain-community
 # pip install python-dotenv
 import streamlit as st
 from langchain.vectorstores import FAISS
