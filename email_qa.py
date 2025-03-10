@@ -81,7 +81,24 @@ else:
 # response = generate_response("Olá, eu posso parcelar o curso?")
 # print(response)
 
-response = generate_response("""
-                               Boa tarde, tudo bem? As aulas são gravadas ou ao vivo? Posso assistir até qual prazo máximo?
-                             """)
-print(response)
+# response = generate_response("""
+#                                Boa tarde, tudo bem? As aulas são gravadas ou ao vivo? Posso assistir até qual prazo máximo?
+#                              """)
+# print(response)
+
+def main():
+    st.set_page_config(
+        page_icon="E-mail manager"
+    )
+    st.header("E-mail manager")
+    message = st.text_area("E-mail do cliente")
+
+    if message:
+        st.write("Gerando um e-mail resposta baseado nas melhores práticas...")
+        result = generate_response(message)
+        st.info(result)
+
+if __name__ == '__main__':
+    main()
+
+# Execute: streamlit run .\email_qa.py
