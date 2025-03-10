@@ -1,6 +1,7 @@
 # pip install streamlit
 # pip install -U langchain langchain-community
 # pip install python-dotenv
+
 import streamlit as st
 from langchain_community.vectorstores import FAISS
 from langchain_openai import OpenAIEmbeddings
@@ -14,16 +15,20 @@ from langchain_community.document_loaders import UnstructuredEmailLoader, TextLo
 # Carrega a chave Open AI 
 load_dotenv()
 
+
+# Carrega o arquivo CSV com as perguntas e respostas
 loader = CSVLoader(file_path="knowledge_base.csv")
 documents = loader.load()
 
 # Carregar mais e-maisl
-# email_loader = UnstructuredEmailLoader("emails_arquivo.eml")
 text_loader = TextLoader("EMAIL00001.txt")
 documents += text_loader.load()
 text_loader = TextLoader("EMAIL00002.txt")
 documents += text_loader.load()
 
+# Outra opção é carregar os e-mails com extensao .eml
+# email_loader = UnstructuredEmailLoader("emails_arquivo.eml")
+# documents += email_loader.load()
 
 embeddings = OpenAIEmbeddings()
 db = FAISS.from_documents(documents, embeddings)
@@ -32,6 +37,8 @@ def retrieve_info(query):
     similar_response = db.similarity_search(query, k=3)
     return [doc.page_content for doc in similar_response] if similar_response else []
 
+# Quanto maior a temperatura, mais distante da exatidão. Valores decimais de 0 até 1.
+# Defina o modelo gpt
 llm = ChatOpenAI(temperature=0, model="gpt-3.5-turbo")
 
 template = """
